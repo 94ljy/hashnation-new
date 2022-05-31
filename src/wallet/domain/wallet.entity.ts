@@ -5,28 +5,24 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
+    JoinColumn,
+    ManyToOne,
     PrimaryGeneratedColumn,
+    Unique,
     UpdateDateColumn,
 } from 'typeorm'
+import { BaseTimeEntity } from '../../common/domain/base.time.entity'
 import { CURRENCY_TYPE } from '../../common/domain/currency'
+import { User } from '../../user/domain/user.entity'
 
 export const CREATE_USER_WALLSET_MESSAGE = new TextEncoder().encode(
     'Approve Add Wallet',
 )
 
 @Entity({ name: 'wallet' })
-export class Wallet {
+export class Wallet extends BaseTimeEntity {
     @PrimaryGeneratedColumn('uuid', { name: 'id' })
     public id: string
-
-    @CreateDateColumn({ name: 'created_at' })
-    public createdAt: Date
-
-    @UpdateDateColumn({ name: 'updated_at' })
-    public updatedAt: Date
-
-    @DeleteDateColumn({ name: 'deleted_at' })
-    public deletedAt?: Date
 
     @Column({ name: 'currency', nullable: false })
     public currency: CURRENCY_TYPE
@@ -40,8 +36,9 @@ export class Wallet {
     @Column({ nullable: false, name: 'user_id' })
     public userId: string
 
-    // @ManyToOne(() => User, (user) => user.wallets)
-    // public user: User
+    @ManyToOne(() => User)
+    @JoinColumn({ name: 'user_id' })
+    public user: User
 
     public static createWallet(
         currency: CURRENCY_TYPE,
@@ -74,9 +71,5 @@ export class Wallet {
         } else {
             throw new Error('Invalid currency')
         }
-    }
-
-    delete() {
-        this.deletedAt = new Date()
     }
 }

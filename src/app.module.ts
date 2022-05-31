@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { DonationModule } from './donation/donation.module'
 import { WalletModule } from './wallet/wallet.module'
 import { PaymentModule } from './payment/payment.module'
+import { UserModule } from './user/user.module';
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { PaymentModule } from './payment/payment.module'
         DonationModule,
         WalletModule,
         PaymentModule,
+        UserModule,
     ],
     controllers: [],
     providers: [],

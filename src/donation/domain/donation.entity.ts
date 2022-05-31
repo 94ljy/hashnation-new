@@ -2,10 +2,13 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinColumn,
+    ManyToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm'
 import { BaseTimeEntity } from '../../common/domain/base.time.entity'
 import { CURRENCY_TYPE } from '../../common/domain/currency'
+import { User } from '../../user/domain/user.entity'
 
 export enum DonationStatus {
     PENDING = 'PENDING',
@@ -29,6 +32,10 @@ export class Donation extends BaseTimeEntity {
 
     @Column({ name: 'to_user_id' })
     toUserId: string
+
+    @ManyToOne(() => User)
+    @JoinColumn({ name: 'to_user_id' })
+    toUser: User
 
     private constructor() {
         super()
